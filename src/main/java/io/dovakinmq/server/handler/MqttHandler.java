@@ -1,14 +1,12 @@
 package io.dovakinmq.server.handler;
 
-import io.dovakinmq.DovakinConst;
+import io.dovakinmq.constant.DovakinConst;
 import io.dovakinmq.processor.Processor;
-import io.dovakinmq.server.MQServer;
 import io.dovakinmq.validator.RequestRecorder;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.handler.codec.mqtt.MqttMessage;
 import io.netty.util.Attribute;
-import io.netty.util.AttributeKey;
 
 /**
  * Created by liuhuanchao on 2017/8/15.
