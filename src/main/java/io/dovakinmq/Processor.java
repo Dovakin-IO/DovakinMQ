@@ -1,4 +1,4 @@
-package io.dovakinmq.processor;
+package io.dovakinmq;
 
 import io.netty.channel.Channel;
 

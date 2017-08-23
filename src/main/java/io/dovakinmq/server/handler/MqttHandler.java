@@ -1,7 +1,7 @@
 package io.dovakinmq.server.handler;
 
-import io.dovakinmq.constant.DovakinConst;
-import io.dovakinmq.processor.Processor;
+import io.dovakinmq.constant.DovakinConstants;
+import io.dovakinmq.Processor;
 import io.dovakinmq.validator.RequestRecorder;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
@@ -23,7 +23,7 @@ public class MqttHandler extends ChannelInboundHandlerAdapter{
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        Attribute<RequestRecorder> attr = ctx.channel().attr(DovakinConst.RECORDER_ATTRIBUTE_KEY);
+        Attribute<RequestRecorder> attr = ctx.channel().attr(DovakinConstants.RECORDER_ATTRIBUTE_KEY);
         RequestRecorder var1 = attr.get();
         if(var1 == null){
             RequestRecorder var2 = new RequestRecorder();

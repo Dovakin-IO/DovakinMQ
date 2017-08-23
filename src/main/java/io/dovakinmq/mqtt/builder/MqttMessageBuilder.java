@@ -7,6 +7,16 @@ import io.netty.handler.codec.mqtt.*;
  */
 public class MqttMessageBuilder {
 
+    public static MqttMessage buildPingRespMessage(){
+        MqttFixedHeader fixedHeader = new MqttFixedHeader(MqttMessageType.PINGRESP,
+                false,
+                MqttQoS.AT_LEAST_ONCE,
+                false,
+                0);
+        MqttMessage mqttMessage = new MqttMessage(fixedHeader);
+        return mqttMessage;
+    }
+
     public static MqttConnAckMessage buildConnAckMessage(MqttConnectReturnCode returnCode,
                                                          MqttQoS qos, Boolean sessionPresent){
         MqttFixedHeader fixedHeader

@@ -21,6 +21,7 @@ public class RequestRecorder {
     }
 
     public MqttMessageType getHistory(int index){
+        if(index > history.size() - 1) return null;
         return history.get(index);
     }
 }

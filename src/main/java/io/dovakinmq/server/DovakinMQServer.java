@@ -1,7 +1,8 @@
 package io.dovakinmq.server;
 
-import io.dovakinmq.manager.ConnectionStore;
-import io.dovakinmq.manager.MqttConnectionStore;
+import io.dovakinmq.ConnectionStore;
+import io.dovakinmq.MQServer;
+import io.dovakinmq.cache.MqttConnectionStore;
 import io.dovakinmq.server.handler.factory.TCPHandlerInitializer;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.Channel;
@@ -16,11 +17,9 @@ import java.net.InetSocketAddress;
 /**
  * Created by liuhuanchao on 2017/8/15.
  */
-public class DovakinMQServer implements MQServer{
+public class DovakinMQServer implements MQServer {
 
     private int port;
-
-    private ConnectionStore connectionStore;
 
     private EventLoopGroup workerGroup = new NioEventLoopGroup();
     private EventLoopGroup bossGroup = new NioEventLoopGroup();
@@ -28,12 +27,10 @@ public class DovakinMQServer implements MQServer{
 
     public DovakinMQServer(int port){
         this.port = port;
-        this.connectionStore = new MqttConnectionStore();
     }
 
     public DovakinMQServer(int port, ConnectionStore connectionStore){
         this.port = port;
-        this.connectionStore = connectionStore;
     }
 
     public void start(){
@@ -53,7 +50,4 @@ public class DovakinMQServer implements MQServer{
         }
     }
 
-    public ConnectionStore getConnectionStore() {
-        return connectionStore;
-    }
 }

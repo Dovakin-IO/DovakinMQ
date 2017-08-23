@@ -1,7 +1,7 @@
 package io.dovakinmq.server.handler.factory;
 
 import io.dovakinmq.processor.impl.MqttProcessor;
-import io.dovakinmq.server.MQServer;
+import io.dovakinmq.MQServer;
 import io.dovakinmq.server.handler.MqttHandler;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;

@@ -1,5 +1,6 @@
-package io.dovakinmq.manager;
+package io.dovakinmq.cache;
 
+import io.dovakinmq.manager.ClientIdentifier;
 import io.netty.channel.Channel;
 import io.netty.handler.codec.mqtt.MqttMessage;
 

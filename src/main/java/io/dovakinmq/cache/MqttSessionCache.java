@@ -1,4 +1,4 @@
-package io.dovakinmq.session;
+package io.dovakinmq.cache;
 
 import java.util.concurrent.ConcurrentHashMap;
 

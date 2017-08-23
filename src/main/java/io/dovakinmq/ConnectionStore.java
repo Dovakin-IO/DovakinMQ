@@ -1,4 +1,4 @@
-package io.dovakinmq.manager;
+package io.dovakinmq;
 
 /**
  * Created by liuhuanchao on 2017/8/15.

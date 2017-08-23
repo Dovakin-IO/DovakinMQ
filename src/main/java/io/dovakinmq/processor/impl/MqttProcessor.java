@@ -1,11 +1,13 @@
 package io.dovakinmq.processor.impl;
 
+import io.dovakinmq.cache.MqttConnectionStore;
+import io.dovakinmq.cache.SubscriptionCache;
 import io.dovakinmq.constant.DovakinConstants;
-import io.dovakinmq.manager.ConnectionStore;
-import io.dovakinmq.manager.MqttConnection;
+import io.dovakinmq.ConnectionStore;
+import io.dovakinmq.cache.MqttConnection;
 import io.dovakinmq.mqtt.builder.MqttMessageBuilder;
-import io.dovakinmq.processor.Processor;
-import io.dovakinmq.server.MQServer;
+import io.dovakinmq.Processor;
+import io.dovakinmq.MQServer;
 import io.dovakinmq.validator.RequestRecorder;
 import io.netty.channel.Channel;
 import io.netty.handler.codec.mqtt.*;
@@ -32,7 +34,30 @@ public class MqttProcessor implements Processor<MqttMessage> {
             case CONNECT:
                 connect((MqttConnectMessage)mqttMessage, ch, requestRecorder);
                 break;
+            case PUBLISH:
+                publish((MqttPublishMessage)mqttMessage, ch, requestRecorder);
+                break;
+            case SUBSCRIBE:
+                subscribe((MqttSubscribeMessage)mqttMessage, ch, requestRecorder);
+                break;
+            case PINGREQ:
+                pingresp(ch);
+                break;
+
         }
+    }
+
+    private void subscribe(MqttSubscribeMessage mqttSubscribeMessage, Channel ch, RequestRecorder recorder){
+
+    }
+
+    private void pingresp(Channel ch){
+        MqttMessage mqttMessage = MqttMessageBuilder.buildPingRespMessage();
+        ch.writeAndFlush(mqttMessage);
+    }
+
+    private void publish(MqttPublishMessage mqttPublishMessage, Channel ch, RequestRecorder recorder){
+        SubscriptionCache.publish(mqttPublishMessage);
     }
 
     private void connect(MqttConnectMessage mqttConnectMessage, Channel ch, RequestRecorder recorder){
@@ -44,14 +69,14 @@ public class MqttProcessor implements Processor<MqttMessage> {
         }
 
         //MQTT_3.1.0-2
-        if(recorder.getHistory(1) == null
-                || recorder.getHistory(1) == MqttMessageType.CONNECT){
+        if(recorder.getHistory(1) != null
+                && recorder.getHistory(1) == MqttMessageType.CONNECT){
             ch.close();
             return;
         }
 
         //MQTT_3.1.2-1
-        if(!mqttConnectMessage.variableHeader().name().equals(MqttVersion.MQTT_3_1_1)){
+        if(!mqttConnectMessage.variableHeader().name().equals(MqttVersion.MQTT_3_1_1.protocolName())){
             ch.close();
             return;
         }
@@ -71,12 +96,12 @@ public class MqttProcessor implements Processor<MqttMessage> {
 
         //TODO CONNECT 报文有效性验证
 
-        ConnectionStore connectionStore = server.getConnectionStore();
+        //ConnectionStore connectionStore = server.getConnectionStore();
         MqttConnection connection = new MqttConnection(
                 mqttConnectMessage.payload().clientIdentifier(),
                 mqttConnectMessage.variableHeader().isCleanSession(),
                 ch);
-        connectionStore.addConnection(connection);
+        MqttConnectionStore.addConnection(connection);
 
         MqttConnAckMessage connAckMessage =MqttMessageBuilder.buildConnAckMessage(
                 MqttConnectReturnCode.CONNECTION_ACCEPTED,
