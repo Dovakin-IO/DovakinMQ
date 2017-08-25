@@ -1,6 +1,5 @@
 package io.dovakinmq.annotation;
 
-import io.dovakinmq.validator.ValidateNode;
 import io.netty.handler.codec.mqtt.MqttMessageType;
 
 import java.io.File;
@@ -34,7 +33,7 @@ public class AnnotationFinder {
 
     private static void buildConnectValidatorCache(Class<?> cls){
         Method[] methods = cls.getMethods();
-        ValidateNode node = new ValidateNode();
+        //ValidateNode node = new ValidateNode();
         List<Method> validateMethods = new ArrayList<Method>();
         for(Method method : methods){
             if(method.isAnnotationPresent(MqttValidate.class)){

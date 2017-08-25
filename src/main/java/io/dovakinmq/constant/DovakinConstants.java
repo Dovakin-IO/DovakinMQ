@@ -1,6 +1,6 @@
 package io.dovakinmq.constant;
 
-import io.dovakinmq.validator.RequestRecorder;
+import io.dovakinmq.cache.RequestRecorder;
 import io.netty.util.AttributeKey;
 
 /**
