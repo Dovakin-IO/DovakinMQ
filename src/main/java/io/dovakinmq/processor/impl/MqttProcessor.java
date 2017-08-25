@@ -2,6 +2,7 @@ package io.dovakinmq.processor.impl;
 
 import io.dovakinmq.cache.MqttConnectionStore;
 import io.dovakinmq.cache.SubscriptionCache;
+import io.dovakinmq.constant.ChannelInfo;
 import io.dovakinmq.constant.DovakinConstants;
 import io.dovakinmq.ConnectionStore;
 import io.dovakinmq.cache.MqttConnection;
@@ -48,7 +49,9 @@ public class MqttProcessor implements Processor<MqttMessage> {
     }
 
     private void subscribe(MqttSubscribeMessage mqttSubscribeMessage, Channel ch, RequestRecorder recorder){
-
+        Attribute<ChannelInfo> attr = ch.attr(DovakinConstants.CHANNEL_INFO_ATTRIBUTE_KEY);
+        ChannelInfo channelInfo = attr.get();
+        SubscriptionCache.subscribe(mqttSubscribeMessage,channelInfo.getIdentifier());
     }
 
     private void pingresp(Channel ch){
@@ -87,12 +90,16 @@ public class MqttProcessor implements Processor<MqttMessage> {
                     MqttConnectReturnCode.CONNECTION_REFUSED_UNACCEPTABLE_PROTOCOL_VERSION,
                     mqttConnectMessage.fixedHeader().qosLevel(),
                     mqttConnectMessage.variableHeader().isCleanSession());
+            ch.writeAndFlush(connAckMessage);
             return;
         }
 
         if(mqttConnectMessage.variableHeader().isCleanSession()){
 
         }
+
+        Attribute<ChannelInfo> attr = ch.attr(DovakinConstants.CHANNEL_INFO_ATTRIBUTE_KEY);
+        attr.setIfAbsent(new ChannelInfo(mqttConnectMessage.payload().clientIdentifier()));
 
         //TODO CONNECT 报文有效性验证
 

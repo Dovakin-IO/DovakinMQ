@@ -1,5 +1,6 @@
 package io.dovakinmq.cache;
 
+import io.dovakinmq.manager.ClientIdentifier;
 import io.dovakinmq.mqtt.Topic;
 import io.netty.handler.codec.mqtt.MqttPublishMessage;
 
@@ -17,11 +18,10 @@ public class SubscriptionTree {
 
     public void add(Topic topic, MqttPublishMessage message){
         synchronized (lock){
-            if(node != null || topic == null) return;
+            if(node == null || topic == null) return;
             topic.reset();
-            node = new SubscriptionNode(topic.next(),null);
-            if(message != null) node.publish(message);
-            buildNodes(node,topic,message);
+            if(message != null) node.publish(message,!topic.hasNext());
+            buildNodes(node,topic.moveToNext(),message);
         }
     }
 
@@ -43,11 +43,36 @@ public class SubscriptionTree {
         }
     }
 
+    public void subscribe(Topic topic, ClientIdentifier identifier){
+        topic.reset();
+        if (!node.getTopic().equals(topic.next())) return;
+        searchNodes(node, topic, identifier);
+    }
+
+    private void searchNodes(SubscriptionNode node, Topic topic, ClientIdentifier identifier){
+        Topic.Element element = topic.next();
+        if (element.getValue().equals(Topic.MULTI)){
+            node.getMultiClients().add(identifier);
+            return;
+        } else if (element.getValue().equals(Topic.SINGLE)){
+            node.getSingleClients().add(identifier);
+            return;
+        }
+        SubscriptionNode subNode = node.getNode(element);
+        if(subNode == null)
+            subNode = node.addNode(element);
+        if(!topic.hasNext()){
+            subNode.getMatchedClients().add(identifier);
+            return;
+        }
+        searchNodes(subNode, topic, identifier);
+    }
+
     private void buildNodes(SubscriptionNode node, Topic topic, MqttPublishMessage message){
         Topic.Element element = topic.next();
         if (element == null) return;
         SubscriptionNode var = node.addNode(element);
-        if(message != null) var.publish(message);
+        if(message != null) var.publish(message, !topic.hasNext());
         buildNodes(var,topic,message);
     }
 }

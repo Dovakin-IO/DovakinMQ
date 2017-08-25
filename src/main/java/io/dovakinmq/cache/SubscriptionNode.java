@@ -38,7 +38,8 @@ public class SubscriptionNode {
 
     public SubscriptionNode addNode(Topic.Element topic){
         SubscriptionNode subNode = new SubscriptionNode(topic,this);
-        return subNodes.putIfAbsent(subNode.getTopic(), subNode);
+        SubscriptionNode var = subNodes.putIfAbsent(subNode.getTopic(), subNode);
+        return var == null ? subNode : var;
     }
 
     public Vector<ClientIdentifier> getMatchedClients() {
@@ -53,11 +54,19 @@ public class SubscriptionNode {
         return singleClients;
     }
 
-    public void publish(MqttPublishMessage message){
-        for(ClientIdentifier identifier : matchedClients){
-            MqttConnection connection
-                = MqttConnectionStore.getConnection(identifier.value());
-            connection.send(message);
+
+
+    public boolean isRoot(){
+        return preNode == null ? true : false;
+    }
+
+    public void publish(MqttPublishMessage message, boolean isTail){
+        if(isTail){
+            for(ClientIdentifier identifier : matchedClients){
+                MqttConnection connection
+                        = MqttConnectionStore.getConnection(identifier.value());
+                connection.send(message);
+            }
         }
         for(ClientIdentifier identifier : multiClients){
             MqttConnection connection

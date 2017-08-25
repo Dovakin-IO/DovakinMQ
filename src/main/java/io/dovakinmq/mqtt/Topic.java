@@ -9,6 +9,10 @@ import java.util.List;
  * Created by liuhuanchao on 2017/8/23.
  */
 public class Topic {
+
+    public static final String MULTI = "#";
+    public static final String SINGLE = "+";
+
     private String topicName;
     private List<Element> elements;
     private int cursor = 0;
@@ -22,6 +26,15 @@ public class Topic {
     public Element next(){
         if(cursor >= elements.size()) return null;
         return elements.get(cursor++);
+    }
+
+    public Topic moveToNext(){
+        cursor++;
+        return this;
+    }
+
+    public boolean hasNext(){
+        return cursor < elements.size();
     }
 
     public void reset(){
@@ -85,6 +98,11 @@ public class Topic {
                 return false;
             }
             return true;
+        }
+
+        @Override
+        public int hashCode() {
+            return value.hashCode();
         }
     }
 }
