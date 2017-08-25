@@ -1,4 +1,4 @@
-package io.dovakinmq.validator;
+package io.dovakinmq.cache;
 
 import io.netty.handler.codec.mqtt.MqttMessageType;
 

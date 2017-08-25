@@ -1,5 +1,6 @@
 package io.dovakinmq.validator;
 
+import io.dovakinmq.cache.RequestRecorder;
 import io.netty.channel.Channel;
 import io.netty.handler.codec.mqtt.MqttMessage;
 
