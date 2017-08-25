@@ -20,7 +20,7 @@ public class SubscriptionTree {
         synchronized (lock){
             if(node == null || topic == null) return;
             topic.reset();
-            if(message != null) node.publish(message,!topic.hasNext());
+            if(message != null) node.publish(message,topic.isTail());
             buildNodes(node,topic.moveToNext(),message);
         }
     }
@@ -45,7 +45,12 @@ public class SubscriptionTree {
 
     public void subscribe(Topic topic, ClientIdentifier identifier){
         topic.reset();
-        if (!node.getTopic().equals(topic.next())) return;
+        Topic.Element element = topic.next();
+        if(!node.getTopic().equals(element)) return;
+        if(!topic.hasNext()) {
+            node.getMatchedClients().add(identifier);
+            return;
+        }
         searchNodes(node, topic, identifier);
     }
 

@@ -37,6 +37,10 @@ public class Topic {
         return cursor < elements.size();
     }
 
+    public boolean isTail(){
+        return cursor + 1 >= elements.size();
+    }
+
     public void reset(){
         cursor = 0;
     }
