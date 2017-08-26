@@ -59,7 +59,7 @@ public class SubscriptionTree {
         if (element.getValue().equals(Topic.MULTI)){
             node.getMultiClients().add(identifier);
             return;
-        } else if (element.getValue().equals(Topic.SINGLE)){
+        } else if (element.getValue().equals(Topic.SINGLE) && !topic.hasNext()){
             node.getSingleClients().add(identifier);
             return;
         }
