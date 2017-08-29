@@ -1,6 +1,5 @@
 package io.dovakinmq.cache;
 
-import io.dovakinmq.ConnectionStore;
 import io.dovakinmq.manager.ClientIdentifier;
 
 import java.util.concurrent.ConcurrentHashMap;
@@ -13,7 +12,7 @@ public class MqttConnectionStore{
     private static ConcurrentHashMap<String, MqttConnection> connections;
 
     static {
-        connections = new ConcurrentHashMap<String, MqttConnection>();
+        connections = new ConcurrentHashMap<>();
     }
 
     public static int size() {

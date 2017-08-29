@@ -63,20 +63,20 @@ public class SubscriptionNode {
     public void publish(MqttPublishMessage message, boolean isTail){
         if(isTail){
             for(ClientIdentifier identifier : matchedClients){
-                MqttConnection connection
+                MqttSession session = MqttSessionCache.get(identifier.value());
+                if(session != null) session.sendMessage(message);
+/*                MqttConnection connection
                         = MqttConnectionStore.getConnection(identifier.value());
-                connection.send(message);
+                connection.send(message);*/
             }
         }
         for(ClientIdentifier identifier : multiClients){
-            MqttConnection connection
-                    = MqttConnectionStore.getConnection(identifier.value());
-            connection.send(message);
+            MqttSession session = MqttSessionCache.get(identifier.value());
+            if(session != null) session.sendMessage(message);
         }
         for(ClientIdentifier identifier : singleClients){
-            MqttConnection connection
-                    = MqttConnectionStore.getConnection(identifier.value());
-            connection.send(message);
+            MqttSession session = MqttSessionCache.get(identifier.value());
+            if(session != null) session.sendMessage(message);
         }
     }
 }

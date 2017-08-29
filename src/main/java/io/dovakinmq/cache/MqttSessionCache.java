@@ -6,10 +6,10 @@ import java.util.concurrent.ConcurrentHashMap;
  * Created by liuhuanchao on 2017/8/17.
  */
 public class MqttSessionCache {
-    private final static ConcurrentHashMap<String, MqttSession> cache;
+    public final static ConcurrentHashMap<String, MqttSession> cache;
 
     static{
-        cache = new ConcurrentHashMap<String, MqttSession>();
+        cache = new ConcurrentHashMap<>();
     }
 
     public static void put(String clientId, MqttSession mqttSession){
@@ -21,8 +21,9 @@ public class MqttSessionCache {
     }
 
     public static void clean(String clientId){
-
+        cache.remove(clientId);
     }
+
 
     public boolean isExist(String clientId){
         return get(clientId) == null ? false : true;
