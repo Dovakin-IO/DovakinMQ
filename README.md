@@ -1,7 +1,12 @@
 # A lightweight Java MQTT Broker based on Netty
 轻量级的[MQTT](http://www.mqtt.org/)服务器，只依赖Netty，开发阶段项目，无法用于生产环境，仅供学习交流使用
+
 ## 依赖
 ### [Netty](https://github.com/netty/netty)
+
+## 进度
+* QoS0, 1, 2级别的订阅/发布机制
+
 ## 如何开始
 1:运行Startup.java
 
