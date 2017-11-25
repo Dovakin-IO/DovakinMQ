@@ -9,7 +9,7 @@ import io.netty.handler.codec.mqtt.MqttMessage;
 import io.netty.util.Attribute;
 
 /**
- * Created by liuhuanchao on 2017/8/15.
+ * Created by Link on 2017/8/15.
  */
 public class MqttHandler extends ChannelInboundHandlerAdapter{
 

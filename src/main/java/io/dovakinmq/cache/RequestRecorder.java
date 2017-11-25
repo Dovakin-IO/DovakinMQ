@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by liuhuanchao on 2017/8/16.
+ * Created by Link on 2017/8/16.
  */
 public class RequestRecorder {
 
@@ -21,7 +21,6 @@ public class RequestRecorder {
     }
 
     public MqttMessageType getHistory(int index){
-        if(index > history.size() - 1) return null;
-        return history.get(index);
+        return (index > history.size() -1) ? null : history.get(index);
     }
 }

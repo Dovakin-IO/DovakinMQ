@@ -4,7 +4,7 @@ import io.dovakinmq.cache.RequestRecorder;
 import io.netty.util.AttributeKey;
 
 /**
- * Created by liuhuanchao on 2017/8/16.
+ * Created by Link on 2017/8/16.
  */
 public class DovakinConstants {
     public static final int PROTOCOL_VERSION = 0x04;

@@ -13,7 +13,7 @@ import io.netty.handler.timeout.IdleStateHandler;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Created by liuhuanchao on 2017/8/15.
+ * Created by Link on 2017/8/15.
  */
 public class TCPHandlerInitializer extends ChannelInitializer<SocketChannel> {
 
