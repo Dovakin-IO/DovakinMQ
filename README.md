@@ -11,7 +11,3 @@
 1:运行Startup.java
 
 2:使用第三方MQTT客户端进行连接(TCP)，默认1883端口，暂无鉴权机制，无需用户名密码
-
-## Visual Studio Code
-本项目完全使用[Visual Studio Code](https://github.com/Microsoft/vscode)开发 
-
