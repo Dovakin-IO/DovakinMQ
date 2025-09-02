@@ -4,7 +4,7 @@
 ## 依赖
 ### [Netty](https://github.com/netty/netty)
 
-## 进度
+
 * QoS0, 1, 2级别的订阅/发布机制
 
 ## 如何开始
